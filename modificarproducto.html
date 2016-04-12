@@ -1,0 +1,83 @@
+
+<!DOCTYPE HTML-->
+<html>
+<head>
+<meta charset="UTF-8">
+
+</style>
+
+   <script> 
+    var btnCargarDatosAct=$("#btnCargarDatosAct");
+    btnCargarDatosAct.click(function cargarDatos(){
+      var idActualizar=$("#idActualizar").val();
+	$.ajax({
+	  type:"POST",
+	  url:"consultaUno.php",
+	  data:"id="+idActualizar,
+	  success:resCargarDatos
+	});
+	
+	function resCargarDatos(datos){
+	//alert("listo:"+datos);
+	  var dat=$.parseJSON(datos);
+	  var divRes=$("#idDibujarControles");
+	  divRes.html("");
+	  divRes.append("<label for='idReg'>ID</label><input type='text' id='idReg' disabled='true'>"+
+	  "<label for='nomReg'>Nombre:</label><input type='text' id='nomReg'>"+
+	  "<label for='nomAPP'>Apellidos:</label><input type='text' id='nomAPP'>"+
+	  "<label for='ncReg'>No. Control:</label><input type='text' id='ncReg'>"+
+	  "<label for='edadReg'>Edad:</label><input type='text' id='edadReg'>");
+	  var i=0;
+	  $("#idReg").val(dat[i].Id_Estudiante);
+	  $("#nomReg").val(dat[i].Nombre);
+	  $("#nomAPP").val(dat[i].Apellidos);
+	  $("#ncReg").val(dat[i].No_Control);
+	  $("#edadReg").val(dat[i].Edad);
+
+	} 
+    });
+    
+    var btnGuardarAct=$("#btnGuardarAct");
+    btnGuardarAct.click(function guardarAct(){
+        var id=parseInt($("#idReg").val());
+	var nombre=$("#nomReg").val();
+      var apellido=$("#nomAPP").val();
+      var noCotrol=$("#ncReg").val();
+      var edad=$("#edadReg").val();
+       //alert("Ejecución correcta: nom="+nombre+"&aps="+apellido+"&nc="+noCotrol+"&ed="+edad);
+	  $.ajax({
+	    type:"POST",
+	    url:"guardarDatosAct.php",
+	    data:"id="+id+"&nom="+nombre+"&aps="+apellido+"&nc="+noCotrol+"&ed="+edad,
+	    success: respGuardarAct
+	  });      
+	  
+	  function respGuardarAct(datos){
+	    alert("respuesta: "+datos);
+	  }	  
+    });
+});
+</script>
+</head>
+<body>
+
+
+<div data-role="page" id="Actualizar">
+    <div data-role="header">
+      <p>Actualizar un registro</p>
+    </div>
+    <div data-role="content">
+      <input type="button" id="btnMostAct" value="Mostrar todos los registros">
+      <div id="resDatosActualizar"></div>
+      <label for="idActualizar">ID:</label>
+      <input type="text" id="idActualizar" >
+      <input type="button" id="btnCargarDatosAct" value="Cargar datos">
+      <div id="idDibujarControles"></div>
+      <input type="button" id="btnGuardarAct" value="Guardar">      
+    </div>
+    <div data-role="footer">
+      <p>Derechos reservados</p>
+    </div>
+</div>
+</body>
+</html>

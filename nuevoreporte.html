@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+ <head>
+ <title></title>
+ </head>
+<style>
+      
+div{
+clear:both;
+padding:50px;
+text-align:center;
+}  
+table{
+margin: 20px auto;
+ border-radius:10px;
+box-shadow:#999 10px 10px 20px;
+}
+
+ </style>
+<script language="javascript">
+function mostrar()
+{
+    var rfc=document.getElementById("rfc");
+    var nom=document.getElementById("nom");
+    var dir=document.getElementById("dir");
+ var ec=document.getElementByYd("ec");
+ var fi=document.getElementByYd("fi");
+ var pues=document.getElementByYd("pues");
+    eval(document.write(
+    "<table border='1'>" +
+    "<tr>
+ <td>RFC</td>
+ <td>NOMBRE</td>
+ <td>DIRECCION</td>
+ <td>ESTADO CIVIL</td>
+ <td>FECHA INGRESO</td>
+ <td>PUESTO</td>
+ </tr>"+
+    "<tr>
+ <td>"+rfc.value+"</td><td>"+nom.value+"</td><td>"+dir.value+"</td></tr><td>"+ec.value+"</td><td>"+fi.value+"</td><td>"+pues.value+"</td>
+ </table>"));
+}
+
+
+</script>
+<body>
+<div">
+<form name="form1" method="post" action="">
+<table width="50%"  border="1">
+<tr>
+<td colspan="2">
+<div align="center"><strong>REGISTRO DE CLIENTES</strong></div>
+</td>
+</tr>
+<tr>
+<td>RFC</td>
+<td><input name="rfc" type="text" id="rfc" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>NOMBRE</td>
+<td><input name="nom" type="text" id="nom" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>DIRECCION</td>
+<td><input name="dir" type="text" id="dir" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>ESTADO CIVIL </td>
+<td><select name="ec" id="ec">
+        <option>SOLTERO</option>
+        <option>CASADO</option>
+        <option>DIVORCIADO</option>
+        <option>VIUDO</option>
+      </select></td>
+</tr>
+<tr>
+<td>FECHA DE INGRESO </td>
+<td><input name="fi" type="date" id="fi" size="10" maxlength="10"></td>
+</tr>
+<tr>
+<td>MODALIDAD</td>
+<td><select name="pues" id="pues">
+        <option>CLIENTE PREFERENTE</option>
+        <option>CLIENTE CONSTANTE</option>
+        <option>CLIENTE EXPORADICO</option>
+      </select></td>
+</tr>
+</table>
+<input type="button" onclick="mostrar()" value="REGISTRAR">
+<input type="reset"  value="LIMPIAR">
+</form> 
+ </div>
+ 
+
+<div id="tr" style="display:none">
+    <input type="button" id="btnConsultar" value="Consultar">
+<div >
+      <p>Consultar un registro</p>
+    </div>
+    <div>
+      <label for="idConsulta">ID:</label>
+      <input type="text" id="idConsulta" >
+      <input type="button" id="btnCons2" value="Consultar">
+      <div id="idResCont2"></div>
+    </div>
+</div>
+</body>
+ </html> 

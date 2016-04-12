@@ -1,0 +1,129 @@
+
+<!DOCTYPE HTML-->
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+<style>
+div{
+clear:both;
+padding:0px;
+text-align:center;
+} 
+form{
+margin: 20px auto;
+ border-radius:10px;
+box-shadow:#999 10px 10px 20px;
+}
+</style>
+
+   <script type="text/javascript"> 
+$(document).ready(function inicio(){
+alert("Ejecución correcta");
+    var btnMostAct=$("#btnMostAct");
+    btnMostAct.click(function MostrarDatos(){
+    $.ajax({
+
+       type:"POST",
+       url:"consultatodoproveedor.php",
+       data:"",
+       success:resMostrar
+
+    });
+
+   function resMostrar(datos){
+    var dat=$.parseJSON(datos);
+	var divRes=$("#resDatosActualizar");
+	divRes.html("");
+	divRes.append("<table border='1' id='tab3'><th> ID </th><th> Nombre</th><th>Telefono</th>"
+	+"<th>Correo Electronico</th><th>Empresa</th><th>Tipo de Mercancia</th>");
+	var tabla=$("#tab3");	
+	for(var i in dat){
+	tabla.append("<tr><td>"+dat[i].Id+"</td>"
+        +"<td>"+dat[i].Nombre+"</td>"
+	+"<td>"+dat[i].Telefono+"</td>"
+	+"<td>"+dat[i].CorreoElectronico+"</td>"
+	+"<td>"+dat[i].Empresa+"</td>"
+	+"<td>"+dat[i].TipodeMercancia+"</td></tr>");
+	}
+	tabla.append("</table>");
+      }
+    });
+
+    var btnCargarDatosAct=$("#btnCargarDatosAct");
+    btnCargarDatosAct.click(function cargarDatos(){
+      var idActualizar=$("#idActualizar").val();
+	$.ajax({
+	  type:"POST",
+	  url:"consultaproveedor.php",
+	  data:"id="+idActualizar,
+	  success:resCargarDatos
+	});
+	
+	function resCargarDatos(datos){
+	  var dat=$.parseJSON(datos);
+	  var divRes=$("#idDibujarControles");
+	  divRes.html("");
+	  divRes.append("<label for='idReg'>ID</label><input type='text' id='idReg' disabled='true'>"+"<br>"+
+	  "<label for='nomReg'>Nombre:</label><input type='text' id='nomReg'>"+"<br>"+
+          "<label for='telReg'>Telefono:</label><input type='text' id='telReg'>"+"<br>"+
+	  "<label for='corReg'>Correo Electronico:</label><input type='text' id='corReg'>"+"<br>"+
+	  "<label for='empReg'>Empresa:</label><input type='text' id='empReg'>"+"<br>"+
+	  "<label for='mercReg'>Tipo de Mercancia:</label><input type='text' id='mercReg'>");
+	  var i=0;
+	  $("#idReg").val(dat[i].Id);
+          $("#nomReg").val(dat[i].Nombre);
+	  $("#telReg").val(dat[i].Telefono);
+	  $("#corReg").val(dat[i].CorreoElectronico);
+	  $("#empReg").val(dat[i].Empresa);
+	  $("#mercReg").val(dat[i].TipodeMercancia);
+
+	} 
+    });
+    
+    var btnGuardarAct=$("#btnGuardarAct");
+    btnGuardarAct.click(function guardarAct(){
+        var id=parseInt($("#idReg").val());
+       var nombre=$("#nomReg").val();
+	var telefono=$("#telReg").val();
+      var correo=$("#corReg").val();
+      var empresa=$("#empReg").val();
+      var mercancia=$("#mercReg").val();
+	  $.ajax({
+	    type:"POST",
+	    url:"actualizarproveedor.php",
+	    data:"id="+id+"&nom="+nombre+"&tel="+telefono+"&corr="+correo+"&emp="+empresa+"&tipo="+mercancia,
+	    success: respGuardarAct
+	  });      
+	  
+	  function respGuardarAct(datos){
+	    alert("respuesta: "+datos);
+	  }	  
+    });
+});
+</script>
+</head>
+<body>
+
+<form>
+<div>
+      <p>Actualizar un registro</p>
+    </div>
+    <div>
+      <input type="button" id="btnMostAct" value="Mostrar todos los registros"></div>
+      <div id="resDatosActualizar"></div>
+      <div><br>
+      <label for="idActualizar">Id:</label>
+      <input type="text" id="idActualizar" >
+      <input type="button" id="btnCargarDatosAct" value="Cargar datos">
+</div><br>
+      <div id="idDibujarControles"></div>
+<div>
+      <input type="button" id="btnGuardarAct" value="Guardar">      
+    </div><br>
+</form>
+</body>
+</html>

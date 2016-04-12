@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+ <head>
+ <title></title>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+<style>
+      
+div{
+clear:both;
+padding:0px;
+text-align:center;
+}  
+table{
+margin: 20px auto;
+ border-radius:10px;
+box-shadow:#999 10px 10px 20px;
+}
+
+ </style>
+<script type="text/javascript">
+$(document).ready(function inicio(){
+alert("Ejecución correcta");
+    var btnguardar=$("#btnguardar");//Selección del boton
+    btnguardar.click(function guardarInf(){
+   var nombre=$("#nom").val();
+      var telefono=$("#tel").val();
+      var correo=$("#cor").val();
+      var empresa=$("#emp").val();
+      var mercancia=$("#tmerc").val();
+       alert("Ejecución correcta: nom="+nombre+"&te="+telefono+"&corr="+correo+"&empr="+empresa+"&merc="+mercancia);
+	  $.ajax({
+	    type:"POST",
+	    url:"insertaproveedor.php",
+	    data:"nom="+nombre+"&te="+telefono+"&corr="+correo+"&empr="+empresa+"&merc="+mercancia,
+	    success: respuestaServ
+	  });      
+	  
+	  function respuestaServ(datos){
+	    alert("respuesta: "+datos);
+	  }	  
+    
+});
+});
+
+</script>
+<body>
+<div>
+<form name="form1" method="post" action="">
+<table width="50%"  border="1">
+<tr>
+<td colspan="2">
+<div align="center"><strong>REGISTRO DE PROVEEDORES</strong></div>
+</td>
+</tr>
+<tr>
+<td>NOMBRE</td>
+<td><input name="nom" type="text" id="nom" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>TELEFONO</td>
+<td><input name="tel" type="text" id="tel" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>CORREO ELECTRONICO</td>
+<td><input name="cor" type="email" id="cor" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>EMPRESA</td>
+<td><input name="emp" type="text" id="emp" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>TIPO DE MERCANCIA</td>
+<td><select name="tmerc" id="tmerc">
+        <option>CONSTRUCCION</option>
+        <option>ELECTRICA Y ACCESORIOS</option>
+        <option>HERRERIA</option>
+        <option>ELECTRONICA</option>
+        <option>FERRETERIA</option>
+        <option>LIMPIEZA</option>
+        <option>PINTURA</option>
+        <option>PLOMERIA</option>
+        <option>TORNILLERIA</option>
+        <option>HERRERIA</option>
+        
+      </select></td>
+</tr>
+</table>
+<input type="button" id="btnguardar" value="REGISTRAR">
+<input type="reset"  value="LIMPIAR">
+</form> 
+ </div>
+ 
+</body>
+ </html> 

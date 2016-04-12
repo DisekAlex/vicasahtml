@@ -1,0 +1,160 @@
+<!DOCTYPE HTML-->
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+</style>
+<script type="text/javascript">
+$(document).ready(function inicio(){
+alert("Ejecución correcta");
+   
+   var Consultar=$("#btnConsultar"); 
+    Consultar.click(function consulta(){
+      $.ajax({
+	type:"POST",
+	url:"consultaTodo.php",
+	data:"",
+	success: resConsultas
+      });
+      
+      function resConsultas(datos){
+	//alert("Respuesta: "+datos);
+	var dat=$.parseJSON(datos);
+	var divRes=$("#idResultado");
+	divRes.html("");
+	divRes.append("<table border='1' id='tab'><th> ID </th><th> Nombre</th>"
+	+"<th>Apellidos</th><th>No. Control</th><th>Edad</th>");
+	var tabla=$("#tab");	
+	for(var i in dat){
+	tabla.append("<tr><td>"+dat[i].Id_Estudiante+"</td>"
+	+"<td>"+dat[i].Nombre+"</td>"
+	+"<td>"+dat[i].Apellidos+"</td>"
+	+"<td>"+dat[i].No_Control+"</td>"
+	+"<td>"+dat[i].Edad+"</td></tr>");
+	}
+	tabla.append("</table>");
+      }
+    });
+    
+    var btnCons2=$("#btnCons2");
+    btnCons2.click(function cons2(){
+    
+      var idConsulta=$("#idConsulta").val();
+	$.ajax({
+	  type:"POST",
+	  url:"consultaUno.php",
+	  data:"id="+idConsulta,
+	  success:resConsUno
+	});
+	
+	function resConsUno(datos){
+	  var dat=$.parseJSON(datos);
+	  var divRes=$("#idResCont2");
+	  divRes.html("");
+	  divRes.append("<table border='1' id='tab2'><th> ID </th><th> Nombre</th>"
+	  +"<th>Apellidos</th><th>No. Control</th><th>Edad</th>");
+	  var tabla=$("#tab2");	
+	  for(var i in dat){
+	  tabla.append("<tr><td>"+dat[i].Id_Estudiante+"</td>"
+	  +"<td>"+dat[i].Nombre+"</td>"
+	  +"<td>"+dat[i].Apellidos+"</td>"
+	  +"<td>"+dat[i].No_Control+"</td>"
+	  +"<td>"+dat[i].Edad+"</td></tr>");
+	}
+	tabla.append("</table>");
+      }
+	
+    });
+    
+    var btnMostAct=$("#btnMostAct");
+    btnMostAct.click(function MostrarDatos(){
+      $.ajax({
+	type:"POST",
+	url:"consultaTodo.php",
+	data:"",
+	success: resMostrar
+      });
+      
+      function resMostrar(datos){
+	//alert("Respuesta: "+datos);
+	var dat=$.parseJSON(datos);
+	var divRes=$("#resDatosActualizar");
+	divRes.html("");
+	divRes.append("<table border='1' id='tab3'><th> ID </th><th> Nombre</th>"
+	+"<th>Apellidos</th><th>No. Control</th><th>Edad</th>");
+	var tabla=$("#tab3");	
+	for(var i in dat){
+	tabla.append("<tr><td>"+dat[i].Id_Estudiante+"</td>"
+	+"<td>"+dat[i].Nombre+"</td>"
+	+"<td>"+dat[i].Apellidos+"</td>"
+	+"<td>"+dat[i].No_Control+"</td>"
+	+"<td>"+dat[i].Edad+"</td></tr>");
+	}
+	tabla.append("</table>");
+      }
+    });
+    
+    var btnCargarDatosAct=$("#btnCargarDatosAct");
+    btnCargarDatosAct.click(function cargarDatos(){
+      var idActualizar=$("#idActualizar").val();
+	$.ajax({
+	  type:"POST",
+	  url:"consultaUno.php",
+	  data:"id="+idActualizar,
+	  success:resCargarDatos
+	});
+	
+	function resCargarDatos(datos){
+	//alert("listo:"+datos);
+	  var dat=$.parseJSON(datos);
+	  var divRes=$("#idDibujarControles");
+	  divRes.html("");
+	  divRes.append("<label for='idReg'>ID</label><input type='text' id='idReg' disabled='true'>"+
+	  "<label for='nomReg'>Nombre:</label><input type='text' id='nomReg'>"+
+	  "<label for='nomAPP'>Apellidos:</label><input type='text' id='nomAPP'>"+
+	  "<label for='ncReg'>No. Control:</label><input type='text' id='ncReg'>"+
+	  "<label for='edadReg'>Edad:</label><input type='text' id='edadReg'>");
+	  var i=0;
+	  $("#idReg").val(dat[i].Id_Estudiante);
+	  $("#nomReg").val(dat[i].Nombre);
+	  $("#nomAPP").val(dat[i].Apellidos);
+	  $("#ncReg").val(dat[i].No_Control);
+	  $("#edadReg").val(dat[i].Edad);
+
+	} 
+    });
+    
+   
+});
+</script>
+</head>
+<body>
+<div >
+   
+      <p>Consultar registros</p>
+    </div>
+    <div data-role="content">
+      <input type="button" id="btnConsultar" value="Consultar">
+      <div id="idResultado"></div>
+    </div>
+    
+
+
+<div>
+   <p>Consultar un registro</p>
+    </div>
+    <div data-role="content">
+      <label for="idConsulta">ID:</label>
+      <input type="text" id="idConsulta" >
+      <input type="button" id="btnCons2" value="Consultar">
+      <div id="idResCont2"></div>
+    </div>
+    <div data-role="footer">
+      <p>Derechos reservados</p>
+    </div>
+</div>
+
+
+</body>
+</html>

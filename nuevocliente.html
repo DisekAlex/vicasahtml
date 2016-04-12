@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+ <head>
+ <title></title>
+ </head>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+<style type=text/css>
+      
+div{
+clear:both;
+padding:0px;
+text-align:center;
+}  
+table{
+margin: 20px auto;
+ border-radius:10px;
+box-shadow:#999 10px 10px 20px;
+}
+
+ </style>
+
+<script type="text/javascript">
+$(document).ready(function inicio(){
+alert("Ejecucion correcta");
+    var btnguardar=$("#btnguardar");//Selección del boton
+    btnguardar.click(function guardarInf(){
+
+ var RFC=$("#txtrfc").val();
+   var nombre=$("#txtnom").val();
+      var direccion=$("#txtdir").val();
+      var fecha=$("#txtfi").val();
+      var modalidad=$("#txtmod").val();
+       alert("Ejecución correcta: rfcc="+RFC+"&nom="+nombre+"&dir="+direccion+"&fech="+fecha+"&mod="+modalidad);
+	  $.ajax({
+	    type:"POST",
+	    url:"insertacliente.php",
+	    data:"rfcc="+RFC+"&nom="+nombre+"&dir="+direccion+"&fech="+fecha+"&mod="+modalidad,
+	    success: respuestaServ
+	  });      
+	  
+	  function respuestaServ(datos){
+	    alert("respuesta: "+datos);
+	  }	  
+    
+});
+});
+
+</script>
+<body>
+<div>
+<form name="form1" method="post" action="">
+<table width="50%"  border="1">
+<tr>
+<td colspan="2">
+<div align="center"><strong>REGISTRO DE CLIENTES</strong></div>
+</td>
+</tr>
+<tr>
+<td>RFC</td>
+<td><input name="rfc" type="text" id="txtrfc" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>NOMBRE</td>
+<td><input name="nom" type="text" id="txtnom" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>DIRECCION</td>
+<td><input name="dir" type="text" id="txtdir" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>TELEFONO</td>
+<td><input name="fi" type="text" id="txtfi" size="30" maxlength="30"></td>
+</tr>
+<tr>
+<td>CORREO ELECTRONICO</td>
+<td><input name="pues" type= text" id="txtmod" size="30" maxlength="30"> </td>
+</tr>
+</table>
+<input type="button" id="btnguardar" value="Registrar">
+<input type="reset"  value="LIMPIAR">
+</form> 
+ </div>
+ 
+</body>
+ </html> 

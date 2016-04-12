@@ -1,0 +1,96 @@
+<!DOCTYPE HTML-->
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+div{
+clear:both;
+padding:0px;
+text-align:center;
+} 
+form{
+margin: 20px auto;
+ border-radius:10px;
+box-shadow:#999 10px 10px 20px;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function inicio(){
+alert("Ejecución correcta");
+   
+   var Consultar=$("#btnConsultar"); 
+    Consultar.click(function consulta(){
+      $.ajax({
+	type:"POST",
+	url:"consultaTodo.php",
+	data:"",
+	success: resConsultas
+      });
+      
+      function resConsultas(datos){
+	//alert("Respuesta: "+datos);
+	var dat=$.parseJSON(datos);
+	var divRes=$("#idResultado");
+	divRes.html("");
+	divRes.append("<table border='1' id='tab'><th> ID </th><th> Nombre</th>"
+	+"<th>Apellidos</th><th>No. Control</th><th>Edad</th>");
+	var tabla=$("#tab");	
+	for(var i in dat){
+	tabla.append("<tr><td>"+dat[i].Id_Estudiante+"</td>"
+	+"<td>"+dat[i].Nombre+"</td>"
+	+"<td>"+dat[i].Apellidos+"</td>"
+	+"<td>"+dat[i].No_Control+"</td>"
+	+"<td>"+dat[i].Edad+"</td></tr>");
+	}
+	tabla.append("</table>");
+      }
+    });
+    
+    var btnCons2=$("#btnCons2");
+    btnCons2.click(function cons2(){
+    
+      var idConsulta=$("#idConsulta").val();
+	$.ajax({
+	  type:"POST",
+	  url:"consultaUno.php",
+	  data:"id="+idConsulta,
+	  success:resConsUno
+	});
+	
+	function resConsUno(datos){
+	  var dat=$.parseJSON(datos);
+	  var divRes=$("#idResCont2");
+	  divRes.html("");
+	  divRes.append("<table border='1' id='tab2'><th> ID </th><th> Nombre</th>"
+	  +"<th>Apellidos</th><th>No. Control</th><th>Edad</th>");
+	  var tabla=$("#tab2");	
+	  for(var i in dat){
+	  tabla.append("<tr><td>"+dat[i].Id_Estudiante+"</td>"
+	  +"<td>"+dat[i].Nombre+"</td>"
+	  +"<td>"+dat[i].Apellidos+"</td>"
+	  +"<td>"+dat[i].No_Control+"</td>"
+	  +"<td>"+dat[i].Edad+"</td></tr>");
+	}
+	tabla.append("</table>");
+      }
+	
+    });
+   
+});
+</script>
+</head>
+<body>
+<form>
+<div>
+   <p>Consultar un reporte</p>
+    </div>
+<div>
+      <label for="idConsulta">Id:</label>
+      <input type="text" id="idConsulta" >
+      <input type="button" id="btnCons2" value="Consultar">
+</div><br>
+      <div id="idResCont2"></div>
+</form>
+
+</body>
+</html>

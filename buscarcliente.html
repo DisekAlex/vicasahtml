@@ -1,0 +1,111 @@
+<!DOCTYPE HTML-->
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+<style>
+div{
+clear:both;
+padding:0px;
+text-align:center;
+} 
+form{
+margin: 20px auto;
+ border-radius:10px;
+box-shadow:#999 10px 10px 20px;
+}
+</style>
+<script type="text/javascript">
+$(document).ready(function inicio(){
+alert("Ejecución correcta");
+   
+   var Consultar=$("#btnConsultar"); 
+    Consultar.click(function consulta(){
+      $.ajax({
+	type:"POST",
+	url:"consultatodocliente.php",
+	data:"",
+	success: resConsultas
+      });
+      
+      function resConsultas(datos){
+	var dat=$.parseJSON(datos);
+	var divRes=$("#idResultado");
+	divRes.html("");
+	divRes.append("<table border='1' id='tab'><th> ID </th><th> RFC </th><th> Nombre</th>"
+	+"<th>Direccion</th><th>Telefono</th><th>Correo Electronico</th>");
+	var tabla=$("#tab");	
+	for(var i in dat){
+	tabla.append("<tr><td>"+dat[i].Id+"</td>"
+        +"<td>"+dat[i].RFC+"</td>"
+	+"<td>"+dat[i].Nombre+"</td>"
+	+"<td>"+dat[i].Direccion+"</td>"
+	+"<td>"+dat[i].Fecha+"</td>"
+	+"<td>"+dat[i].Modalidad+"</td></tr>");
+	}
+	tabla.append("</table>");
+      }
+    });
+    
+    var btnCons2=$("#btnCons2");
+    btnCons2.click(function cons2(){
+    
+      var idConsulta=$("#idConsulta").val();
+	$.ajax({
+	  type:"POST",
+	  url:"consultacliente.php",
+	  data:"id="+idConsulta,
+	  success:resConsUno
+	});
+	
+	function resConsUno(datos){
+	  var dat=$.parseJSON(datos);
+	  var divRes=$("#idResCont2");
+	  divRes.html("");
+	  divRes.append("<table border='1' id='tab2'><th> ID </th><th> RFC </th><th> Nombre</th>"
+	  +"<th>Direccion</th><th>Telefono</th><th>Correo Electronico</th>");
+	  var tabla=$("#tab2");	
+	  for(var i in dat){
+	  tabla.append("<tr><td>"+dat[i].Id+"</td>"
+	  +"<td>"+dat[i].RFC+"</td>"
+          +"<td>"+dat[i].Nombre+"</td>"
+	  +"<td>"+dat[i].Direccion+"</td>"
+	  +"<td>"+dat[i].Fecha+"</td>"
+	  +"<td>"+dat[i].Modalidad+"</td></tr>");
+	}
+	tabla.append("</table>");
+      }
+	
+    });
+   
+});
+</script>
+</head>
+<body>
+<form>
+<div>
+   <p>Consultar registros</p>
+
+      <input type="button" id="btnConsultar" value="Consultar">
+      <div id="idResultado"></div>
+</div>
+ 
+    
+
+
+<div>
+   <p>Consultar un registro</p>
+    </div>
+<div>
+      <label for="idConsulta">Nombre:</label>
+      <input type="text" id="idConsulta" >
+      <input type="button" id="btnCons2" value="Consultar">
+</div><br>
+      <div id="idResCont2"></div>
+</form>
+
+</body>
+</html>

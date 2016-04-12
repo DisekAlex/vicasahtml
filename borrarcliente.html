@@ -1,0 +1,99 @@
+
+<!DOCTYPE HTML-->
+<html>
+<head>
+<script type="text/javascript" src="js/jquery-ui.js"></script>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/jquery.mobile-1.4.5.min.js"></script>
+<style>
+div{
+clear:both;
+padding:0px;
+text-align:center;
+} 
+form{
+margin: 20px auto;
+ border-radius:10px;
+box-shadow:#999 10px 10px 20px;
+}
+</style>
+
+   <script type="text/javascript"> 
+$(document).ready(function inicio(){
+alert("Ejecución correcta");
+    var btnMostAct=$("#btnMostAct");
+    btnMostAct.click(function MostrarDatos(){
+    $.ajax({
+
+       type:"POST",
+       url:"consultatodocliente.php",
+       data:"",
+       success:resMostrar
+
+    });
+
+   function resMostrar(datos){
+    var dat=$.parseJSON(datos);
+	var divRes=$("#resDatosActualizar");
+	divRes.html("");
+	divRes.append("<table border='1' id='tab3'><th> ID </th><th> RFC</th><th> Nombre</th>"
+	+"<th>Direccion</th><th>Telefono</th><th>Correo Electronico</th>");
+	var tabla=$("#tab3");	
+	for(var i in dat){
+	tabla.append("<tr><td>"+dat[i].Id+"</td>"
+        +"<td>"+dat[i].RFC+"</td>"
+	+"<td>"+dat[i].Nombre+"</td>"
+	+"<td>"+dat[i].Direccion+"</td>"
+	+"<td>"+dat[i].Fecha+"</td>"
+	+"<td>"+dat[i].Modalidad+"</td></tr>");
+	}
+	tabla.append("</table>");
+      }
+    });
+
+    
+   var btnGuardarAct=$("#btnGuardarAct");
+    btnGuardarAct.click(function guardarAct(){
+        var id=parseInt($("#idReg").val());
+       var rfc=$("#rfcReg").val();
+	var nombre=$("#nomReg").val();
+      var direccion=$("#dirReg").val();
+      var fecha=$("#fechReg").val();
+      var modalidad=$("#modReg").val();
+	  $.ajax({
+	    type:"POST",
+	    url:"borrarcliente.php",
+	    data:"id="+id+"&rfcc="+rfc+"&nom="+nombre+"&dir="+direccion+"&fech="+fecha+"&mod="+modalidad,
+	    success: respGuardarAct
+	  });      
+	  
+	  function respGuardarAct(datos){
+	    alert("respuesta: "+datos);
+	  }	  
+    });
+});
+</script>
+</head>
+<body>
+
+<form>
+<div>
+      <p>Eliminar un registro</p>
+    </div>
+    <div>
+      <input type="button" id="btnMostAct" value="Mostrar todos los registros"></div>
+      <div id="resDatosActualizar"></div>
+      <div><br>
+      <label for="idActualizar">Id:</label>
+      <input type="text" id="idActualizar" >
+      
+</div><br>
+      <div id="idDibujarControles"></div>
+<div>
+      <input type="button" id="btnGuardarAct" value="Eliminar">      
+    </div><br>
+</form>
+</body>
+</html>
